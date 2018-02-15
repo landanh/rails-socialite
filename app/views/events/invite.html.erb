@@ -1,0 +1,43 @@
+<div class="events index">
+  <%= form_tag(events_invite_path, :method => "get") do %>
+    <h3>Invite to <%= @event.event_name %></h3>
+    <%= text_field_tag :search, "Search for Users"%>
+    <%= submit_tag "Search", :name => nil %>
+  <% end %>
+    <table>
+      <thead>
+        <tr>
+          <td>
+            First Name
+          </td>
+          <td>
+            Last Name
+          </td>
+          <td>
+            Email
+          </td>
+          <td>
+            Invite
+          </td>
+        </tr>
+      </thead>
+      <% @users.each do |user| %>
+        <tbody>
+          <tr>
+            <td>
+              <%= user.first_name %>
+            </td>
+            <td>
+              <%= user.last_name %>
+            </td>
+            <td>
+              <%= user.email_addr %>
+            </td>
+            <td>
+              <%= button_to 'Invite', {:controller => "events", :action => "invite", :event_id => params[:event_id], :user_id => user.id}, :method=>:post %>
+            </td>
+          </tr>
+        </tbody>
+      <% end %>
+    </table>
+</div>

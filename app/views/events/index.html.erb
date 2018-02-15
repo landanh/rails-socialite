@@ -30,11 +30,36 @@
                     <p><span class="small_title">Start Time: </span><%= event.event_start %></p>
                     <p><span class="small_title">End Time: </span><%= event.event_end %></p>
                     <p><span class="small_title">Details: </span><%= event.description %></p>
+                    <p><span class="small_title">Guests: <%= event.invites.where(:rsvp == 1).count + event.invites.sum(:additional_guests) %></span></p>
                     <% if @account_type == 'host' %>
                         <p><span class="small_title">Type: </span><%= event.event_type %></p>
                     <% end %>
                 </div>
-                <div style="clear:both;"></div>
+
+              <% if @event_time == 'upcoming' && @account_type == 'host' %>
+                <div class="actions">
+                  <ul>
+                    <% if event.event_type == 'invite' %>
+                      <li><%= link_to 'Invite Guests', events_invite_path(:event_id => event.id) %></li>
+                    <% end %>
+                    <li><%= link_to 'Download Guest List', events_guest_list_path(:event_id => event.id, :format => :csv) %></li>
+                  </ul>
+                </div>
+              <% end %>
+              <% if @account_type == 'user' %>
+                <% if @event_time == 'upcoming' %>
+                  <% if event.capacity - (event.invites.where(:rsvp == 1).count + event.invites.sum(:additional_guests)) > 0 %>
+                    <div class="actions">
+                      <ul>
+                        <li><%= link_to 'RSVP', events_rsvp_path(:event_id => event.id, :user_id => @current_user.id) %></li>
+                      </ul>
+                    </div>
+                  <% else %>
+                    <h3>Event Full</h3>
+                  <% end %>
+                <% end %>
+              <% end %>
+              <div style="clear:both;"></div>
             </div>
         <% end %>
     <% else %>

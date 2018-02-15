@@ -7,6 +7,12 @@ Rails.application.routes.draw do
 
   get '/events/add' => 'events#add', as: :events_add
   post '/events/add' => 'events#add', as: :events_add_post
+  get '/events/invite' => 'events#invite', as: :events_invite
+  post '/events/invite' => 'events#invite', as: :events_invite_post
+  get 'events/rsvp' => 'events#rsvp', as: :events_rsvp
+  post 'events/rsvp' => 'events#rsvp', as: :events_rsvp_post
+  get 'events/agenda' => 'events#agenda', as: :events_agenda
+  get 'events/guest_list' => 'events#guest_list', as: :events_guest_list
   get '/events(/:event_time)' => 'events#index', as: :events_index
 
   get '/hosts/register' => 'hosts#register', as: :hosts_register
