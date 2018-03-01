@@ -16,7 +16,7 @@ class EventsController < ApplicationController
       end
       else
       if @event_time == 'upcoming'
-        Event.get_events_for_user(1)
+        Event.get_events_for_user(@current_user.id)
       else
         Event.get_past_public_events
       end

@@ -16,13 +16,7 @@ class Event < ApplicationRecord
   end
 
   def self.get_events_for_user(user_id)
-    self.find_by_sql(["SELECT e.* FROM socialite_development.events AS e
-        LEFT OUTER JOIN socialite_development.invites AS i
-        ON i.event_id = e.id
-        LEFT OUTER JOIN socialite_development.users as u
-        ON u.id = i.user_id
-        WHERE (i.user_id = ? OR e.event_type = ?)
-        AND e.event_start >= NOW()", user_id, :public])
+    self.left_joins(:invites).where('invites.user_id = ? OR events.event_type = ?', user_id, :public).distinct
   end
 
   def self.get_agenda_for_user(user_id)
