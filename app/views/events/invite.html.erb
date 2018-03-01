@@ -1,6 +1,7 @@
 <div class="events index">
   <%= form_tag(events_invite_path, :method => "get") do %>
     <h3>Invite to <%= @event.event_name %></h3>
+    <%= hidden_field_tag :event_id, @event.id %>
     <%= text_field_tag :search, "Search for Users"%>
     <%= submit_tag "Search", :name => nil %>
   <% end %>
